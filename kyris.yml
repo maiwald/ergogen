@@ -1,0 +1,115 @@
+points:
+  zones:
+    matrix:
+      anchor:
+        shift: [60, -100]
+      columns:
+        outer:
+          rows:
+            bottom.skip: true
+            home:
+              column_net: P1
+        pinky:
+          key.stagger: 0.15U
+          key.spread: U
+        ring:
+          key.stagger: 0.66U
+        middle:
+          key.stagger: 0.25U
+        index:
+          key.stagger: -0.25U
+        inner:
+          key.stagger: -0.15U
+      rows:
+        bottom.padding: U
+        home.padding: U
+        top.padding: U
+    thumb:
+      anchor:
+        ref: matrix_ring_bottom
+        shift: [0.4U, -1.2U]
+        rotate: 0
+      columns:
+        crampy:
+        tucky:
+        rest:
+          key.spread: U + 1
+          key.splay: -14
+          key.origin: [-0.5U, -0.5U]
+        reachy:
+          rows.upper.skip: false
+          key.spread: U + 1
+          key.splay: -14
+          key.origin: [-0.5U, -0.5U]
+      rows:
+        lower:
+        upper.skip: true
+outlines:
+  keys:
+    - what: rectangle
+      where: true
+      bound: false
+      size: [cx-0.5,cy-0.5]
+  board:
+    - what: polygon
+      operation: stack
+      fillet: 2
+      points:
+        - ref: matrix_outer_top
+          shift: [-0.5U-1,0.5U]
+        - ref: matrix_ring_top
+          shift: [-0.5U,0.5U]
+        - ref: matrix_middle_top
+          shift: [-0.5U,0.5U]
+        - ref: matrix_middle_top
+          shift: [0.5U,0.5U]
+        - ref: matrix_inner_top
+          shift: [0.5U,0.5U]
+        - ref: thumb_reachy_upper
+          shift: [0.5U+1,0.5U]
+        - ref: thumb_reachy_lower
+          shift: [0.5U+1,-0.5U]
+        - ref: thumb_crampy_lower
+          shift: [-0.5U,-0.5U]
+        - ref: matrix_pinky_bottom
+          shift: [-0.5U,-0.5U]
+        - ref: matrix_outer_home
+          shift: [-0.5U-1,-0.5U]
+  combo:
+    - name: board
+    - operation: subtract
+      name: keys
+pcbs:
+  kyris:
+    outlines:
+      main:
+        outline: board
+    footprints:
+      keys:
+        what: choc
+        where: true
+        params:
+          from: GND
+          to: "{{column_net}}"
+          reverse: true
+          keycaps: true
+          hotswap: true
+      mcu:
+        what: promicro_pretty
+        where:
+          - ref: matrix_inner_home
+            shift: [1.2U, 0.5U]
+            rotate: -90
+      trrs:
+        what: trrs
+        where:
+          ref: matrix_inner_home
+          shift: [1.5U, -0.8U]
+          rotate: -90
+        params:
+          A: GND
+          B: GND
+          C: P2
+          D: VCC
+          reverse: true
+          symmetric: true
